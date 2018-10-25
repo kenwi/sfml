@@ -29,24 +29,25 @@ public:
 
 	float getHeightAboveGround(sf::Vector2f p)
 	{
-		sf::Vector2f p0 = center;
+		sf::Vector2f p0 = getCenter();
 		float d = sqrt(pow(p.x - p0.x, 2) + pow(p.y - p0.y, 2));
-		return d - radius + 10;
+		return d - radius;
+	}
+
+	sf::Vector2f getCenter()
+	{
+		sf::Vector2f position = shape.getPosition();
+		return sf::Vector2f(position.x + radius, position.y + radius);
 	}
 
 	void setCenterAt(float x, float y)
 	{
-		x -= radius;
-		y -= radius;
-		center.x = x;
-		center.y = y;
-		shape.setPosition(sf::Vector2f(x, y));
+		shape.setPosition(sf::Vector2f(x - radius, y - radius));
 	}
 
 private:
 	float radius;
 	sf::CircleShape shape;
-	sf::Vector2f center;
 
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const
 	{

@@ -11,7 +11,7 @@ class Ship : public sf::Drawable, public sf::Transformable
 {
 public:
 	Ship(sf::Vector2f initialPosition, Earth &earth)
-		: radius(10)
+		: radius(30)
 		, earth(earth)
 		, velocity(0.0f, 0.0f)
 	{
@@ -27,21 +27,23 @@ public:
 		setCenterAt(x, y);
 	}
 
+	sf::Vector2f getCenter()
+	{
+		sf::Vector2f position = shape.getPosition();
+		return sf::Vector2f(position.x + radius, position.y + radius);
+	}
+
 	void setCenterAt(float x, float y)
 	{
-		x -= radius;
-		y -= radius;
-		center.x = x;
-		center.y = y;
-		shape.setPosition(sf::Vector2f(x, y));
+		shape.setPosition(sf::Vector2f(x - radius, y - radius));
 	}
 
 	void update(sf::Time deltaTime)
 	{
-		sf::Vector2f position = shape.getPosition();
+		sf::Vector2f position = getCenter();
 		sf::Vector2f gravity(0.0f, -9.81f);
 
-		float height = earth.getHeightAboveGround(sf::Vector2f(position.x, position.y + radius));
+		float height = earth.getHeightAboveGround(sf::Vector2f(position.x, position.y)) - radius;
 		std::cout << height << std::endl;
 
 		if (height <= 0)
@@ -55,7 +57,7 @@ public:
 
 		position += velocity * deltaTime.asSeconds();
 
-		shape.setPosition(position.x, position.y);
+		setCenterAt(position.x, position.y);
 	}
 
 private:
