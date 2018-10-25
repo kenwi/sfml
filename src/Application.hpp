@@ -3,11 +3,11 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
-namespace Game 
+namespace Game
 {
-    class Application
-    {
-        public:
-            int Run();
-    };
+	class Application
+	{
+	public:
+		int Run();
+	};
 }

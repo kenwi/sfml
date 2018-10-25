@@ -7,7 +7,7 @@ class ParticleSystem : public sf::Drawable, public sf::Transformable
 {
 public:
 
-	ParticleSystem(unsigned int count) 
+	ParticleSystem(unsigned int count)
 		: particles(count)
 		, vertices(sf::Points, count)
 		, lifetime(sf::seconds(3.f))
@@ -63,7 +63,7 @@ private:
 	{
 		float angle = (std::rand() % 360) * 3.14f / 180.f;
 		float speed = (std::rand() % 50) + 50.f;
-		
+
 		particles[index].velocity = sf::Vector2f(std::cos(angle) * speed, std::sin(angle) * speed);
 		particles[index].lifetime = sf::milliseconds((std::rand() % 2000) + 1000);
 
