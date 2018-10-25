@@ -9,20 +9,20 @@ namespace Game
 {
     int Application::Run()
     {
-        int WindowWidth = 640, WindowHeight = 480;        
-        cout << "Start application" << endl;
+		cout << "Start application" << endl;
+
+		int windowWidth = 1024, windowHeight = 768;        
+		sf::Vector2f windowCenter(windowWidth * 0.5f, windowHeight * 0.5f);
         
         auto  style = sf::Style::Titlebar | sf::Style::Close;// | sf::Style::Fullscreen;
-        sf::RenderWindow window(sf::VideoMode(WindowWidth, WindowHeight), "Game", style);
+        sf::RenderWindow window(sf::VideoMode(windowWidth, windowHeight), "", style);
 
-        float HeightAboveGround = 50;
-        float EarthRadius = 5000;
-
-        sf::Vector2f EarthPosition(WindowWidth * 0.5f, WindowHeight + EarthRadius - HeightAboveGround);
-        Earth earth(EarthRadius, EarthPosition);
-
-        //y + windowHeight + EarthRadius =  + HeightAboveGround
-        Ship ship(sf::Vector2f(WindowWidth * 0.5f, WindowHeight * 0.5f), earth);
+        float heightAboveGround = 50;
+        float earthRadius = 5000;
+        sf::Vector2f EarthPosition(windowCenter.x, windowHeight + earthRadius - heightAboveGround);
+        
+		Earth earth(earthRadius, EarthPosition);
+        Ship ship(sf::Vector2f(windowCenter), earth);
 
         ParticleSystem particles(10000);
 
@@ -43,13 +43,13 @@ namespace Game
 
                     if(event.key.code == sf::Keyboard::Space)
                     {
-                        ship.resetPosition(WindowWidth * 0.5f, 0.0f);
+                        ship.resetTo(windowWidth * 0.5f, 0.0f);
                     }
 
                     if(event.key.code == sf::Keyboard::BackSpace)
                     {
                         style = sf::Style::Titlebar | sf::Style::Close | sf::Style::Fullscreen;
-                        window.create(sf::VideoMode(WindowWidth, WindowHeight), "Game", style);
+                        window.create(sf::VideoMode(windowWidth, windowHeight), "Game", style);
                     }
                 }
             }
@@ -62,7 +62,7 @@ namespace Game
             //particles.setEmitter(window.mapPixelToCoords(mouse));
             //particles.update(elapsed);
 
-            window.clear(sf::Color(140, 140, 140));            
+            window.clear(sf::Color(45, 130, 226));            
             window.draw(ship);            
             window.draw(earth);
             //window.draw(particles);

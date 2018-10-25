@@ -7,65 +7,64 @@
 #include <cmath>
 #include <algorithm>
 
-
 class Grid : public sf::Drawable, public sf::Transformable
 {
-    private:        
-        int Size;
-        int Height;
-        int Width;
+public:
+	Grid(const int width, const int height, const int size)
+		: width(width)
+		, height(height)
+		, size(size)
+	{
+		columns = width / size;
+		rows = height / size;
 
-        int Columns;
-        int Rows;
+		createVertices(vertices);
+	}
 
-        sf::VertexArray vertices;
-    public:
-        Grid(const int width, const int height, const int size)
-            : Width(width)
-            , Height(height)
-            , Size(size)
-        {
-            Columns = width / Size;
-            Rows =  height / Size;
+	Grid(const int width, const int height, const sf::Vector2i size)
+		: width(width)
+		, height(height)
+	{
+		columns = width / size.x;
+		rows = height / size.y;
 
-            createVertices(vertices);
-        }
+		createVertices(vertices);
+	}
 
-        Grid(const int width, const int height, const sf::Vector2i size)
-            : Width(width)
-            , Height(height)
-        {
-            Columns = width / size.x;
-            Rows = height  / size.y;
+private:
+	void createVertices(sf::VertexArray& vertices)
+	{
+		vertices.setPrimitiveType(sf::Points);
 
-            createVertices(vertices);
-        }
+		for (int i = 0; i < columns; i++)
+		{
+			for (int j = 0; j < rows; j++)
+			{
+				const float x = (float)std::clamp(i * size, 0, width);
+				const float y = (float)std::clamp(j * size, 0, height);
 
-    private:
-        void createVertices(sf::VertexArray& vertices)
-        {
-            vertices.setPrimitiveType(sf::Points);
+				const sf::Vector2f v(x, y);
+				const sf::Vertex vertex = sf::Vertex(v);
 
-            for(int i=0; i<Columns; i++)
-            {
-                for(int j=0; j<Rows; j++)
-                {                    
-                    const float x = (float)std::clamp(i * Size, 0, Width);
-                    const float y = (float)std::clamp(j * Size, 0, Height);
+				vertices.append(vertex);
+			}
+		}
+	}
 
-					const sf::Vector2f v(x, y);
-					const sf::Vertex vertex = sf::Vertex(v);
+	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const
+	{
+		states.transform *= getTransform();
+		states.texture = NULL;
 
-                    vertices.append(vertex);
-                }
-            }
-        }
+		target.draw(vertices, states);
+	}
 
-        virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const
-        {
-            states.transform *= getTransform();
-            states.texture = NULL;            
+	int size;
+	int height;
+	int width;
 
-            target.draw(vertices, states);
-        }
+	int columns;
+	int rows;
+
+	sf::VertexArray vertices;
 };

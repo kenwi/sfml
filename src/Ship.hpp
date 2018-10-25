@@ -9,51 +9,56 @@
 
 class Ship : public sf::Drawable, public sf::Transformable
 {
-  public:
-    Ship(sf::Vector2f initialPosition, Earth &earth)
-    {
-        this->radius = 10;
-        this->earth = earth;        
-       
-        shape.setRadius(radius);
-        shape.setFillColor(sf::Color::Red);
+public:
+	Ship(sf::Vector2f initialPosition, Earth &earth)
+		: radius(10)
+		, earth(earth)
+		, velocity(0.0f, 0.0f)
+	{
+		shape.setRadius(radius);
+		shape.setFillColor(sf::Color::Red);
 
-        resetPosition(initialPosition.x, initialPosition.y);
-    }
+		setCenterAt(initialPosition.x, initialPosition.y);
+	}
 
-    void resetPosition(float x, float y)
-    {
-        velocity = sf::Vector2f(0.0f, 0.0f);
-        position = sf::Vector2f(x, y);
+	void resetTo(float x, float y)
+	{
+		velocity = sf::Vector2f(0.0f, 0.0f);
+		setCenterAt(x, y);
+	}
 
-        position.x -= radius;
-        position.y -= radius;
+	void setCenterAt(float x, float y)
+	{
+		x -= radius;
+		y -= radius;
+		shape.setPosition(sf::Vector2f(x, y));
 
-        shape.setPosition(position);
-    }
+		std::cout << x << " " << y << std::endl;
+	}
 
-    void update(sf::Time DeltaTime)
-    {
-        sf::Vector2f gravity(0.0f, -9.81f);
-        
-        velocity.x += gravity.x * gravity.x / 1000;
-        velocity.y += gravity.y * gravity.y / 1000;
+	void update(sf::Time deltaTime)
+	{
+		sf::Vector2f position = shape.getPosition();
+		sf::Vector2f gravity(0.0f, -9.81f);
 
-        position += velocity * DeltaTime.asSeconds();        
-        shape.setPosition(position);
-    }
+		velocity.x += gravity.x * gravity.x / 1000;
+		velocity.y += gravity.y * gravity.y / 1000;
 
-  private:
-    sf::Vector2f position;
-    sf::Vector2f velocity;
-    sf::CircleShape shape;
-    float radius;
-    Earth earth;
+		position += velocity * deltaTime.asSeconds();
 
-    virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const
-    {
-        states.transform *= getTransform();
-        states.texture = NULL;
-        target.draw(shape, states);
-    }
+		shape.setPosition(position.x, position.y);
+	}
+
+private:
+	float radius;
+	sf::CircleShape shape;
+	sf::Vector2f velocity;
+	Earth earth;
+
+	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const
+	{
+		states.transform *= getTransform();
+		states.texture = NULL;
+		target.draw(shape, states);
+	}
 };
