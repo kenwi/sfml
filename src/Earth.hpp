@@ -22,7 +22,7 @@ public:
 		shape.setOutlineColor(sf::Color(35, 38, 34)); // Black-ish
 		shape.setFillColor(sf::Color(16, 160, 6));	  // Green-ish
 		shape.setOutlineThickness(2);
-		shape.setPointCount(200);
+		shape.setPointCount(400);
 
 		setCenterAt(initialPosition.x, initialPosition.y);
 	}

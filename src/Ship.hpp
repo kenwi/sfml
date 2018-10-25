@@ -17,7 +17,8 @@ public:
 	{
 		shape.setRadius(radius);
 		shape.setFillColor(sf::Color::Red);
-
+		shape.setOutlineThickness(1);
+		shape.setOutlineColor(sf::Color(35, 38, 34));
 		setCenterAt(initialPosition.x, initialPosition.y);
 	}
 
@@ -44,7 +45,7 @@ public:
 		sf::Vector2f gravity(0.0f, -9.81f);
 
 		float height = earth.getHeightAboveGround(sf::Vector2f(position.x, position.y)) - radius;
-		std::cout << height << std::endl;
+		//std::cout << height << std::endl;
 
 		if (height <= 0)
 		{
