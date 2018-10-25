@@ -42,10 +42,8 @@ public:
 	void update(sf::Time deltaTime)
 	{
 		sf::Vector2f position = getCenter();
-		sf::Vector2f gravity(0.0f, -9.81f);
-
-		float height = earth.getHeightAboveGround(sf::Vector2f(position.x, position.y)) - radius;
-		//std::cout << height << std::endl;
+		float height = earth.getHeightAboveGround(position) - radius;
+		sf::Vector2f gravity(0.0f, earth.getGravityAtHeight(height));
 
 		if (height <= 0)
 		{

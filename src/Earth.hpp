@@ -27,11 +27,21 @@ public:
 		setCenterAt(initialPosition.x, initialPosition.y);
 	}
 
+	float getHeightAboveGround(float x, float y)
+	{
+		return getHeightAboveGround(sf::Vector2f(x, y));
+	}
+
 	float getHeightAboveGround(sf::Vector2f p)
 	{
 		sf::Vector2f p0 = getCenter();
 		float d = sqrt(pow(p.x - p0.x, 2) + pow(p.y - p0.y, 2));
 		return d - radius;
+	}
+
+	float getGravityAtHeight(float height)
+	{
+		return -9.81f;
 	}
 
 	sf::Vector2f getCenter()
