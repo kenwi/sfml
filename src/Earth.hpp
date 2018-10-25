@@ -4,6 +4,7 @@
 #include <SFML/Graphics/VertexArray.hpp>
 
 #include <iostream>
+#include <cmath>
 
 class Earth : public sf::Drawable, public sf::Transformable
 {
@@ -26,16 +27,26 @@ public:
 		setCenterAt(initialPosition.x, initialPosition.y);
 	}
 
+	float getHeightAboveGround(sf::Vector2f p)
+	{
+		sf::Vector2f p0 = center;
+		float d = sqrt(pow(p.x - p0.x, 2) + pow(p.y - p0.y, 2));
+		return d - radius + 10;
+	}
+
 	void setCenterAt(float x, float y)
 	{
 		x -= radius;
 		y -= radius;
+		center.x = x;
+		center.y = y;
 		shape.setPosition(sf::Vector2f(x, y));
 	}
 
 private:
 	float radius;
 	sf::CircleShape shape;
+	sf::Vector2f center;
 
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const
 	{

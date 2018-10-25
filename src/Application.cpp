@@ -18,8 +18,9 @@ namespace Game
 		sf::RenderWindow window(sf::VideoMode(windowWidth, windowHeight), "", style);
 
 		float heightAboveGround = 50;
-		float earthRadius = 5000;
-		sf::Vector2f EarthPosition(windowCenter.x, windowHeight + earthRadius - heightAboveGround);
+		float earthRadius = 500;
+
+		sf::Vector2f EarthPosition(windowCenter.x, windowCenter.y + earthRadius + 100);
 
 		Earth earth(earthRadius, EarthPosition);
 		Ship ship(sf::Vector2f(windowCenter), earth);
