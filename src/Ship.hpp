@@ -64,7 +64,6 @@ private:
 	float radius;
 	sf::CircleShape shape;
 	sf::Vector2f velocity;
-	sf::Vector2f center;
 	Earth earth;
 
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const
