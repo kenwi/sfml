@@ -43,17 +43,17 @@ public:
 	{
 		sf::Vector2f position = getCenter();
 		float height = earth.getHeightAboveGround(position) - radius;
+		
 		sf::Vector2f gravity(0.0f, earth.getGravityAtHeight(height));
+		gravity = sf::Vector2f(pow(gravity.x, 2) / 1000, pow(gravity.y, 2) / 1000);
 
 		if (height <= 0)
 		{
 			velocity.x = -abs(velocity.x);
 			velocity.y = -abs(velocity.y);
 		}
-
-		velocity.x += gravity.x * gravity.x / 1000;
-		velocity.y += gravity.y * gravity.y / 1000;
-
+		
+		velocity += gravity;
 		position += velocity * deltaTime.asSeconds();
 
 		setCenterAt(position.x, position.y);

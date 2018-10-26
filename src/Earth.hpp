@@ -55,9 +55,37 @@ public:
 		shape.setPosition(sf::Vector2f(x - radius, y - radius));
 	}
 
+	float getRadius() {
+		return radius;
+	}
+
+	float getAltitudeDensity(const float altitude)
+	{
+		float temperature = getAltitudeTemperature(altitude);
+		float pressure = getAltitudePressure(altitude);
+		return pressure * 100.0f/ (temperature + 273.15f) * specificGassConstant;
+	}
+
 private:
 	float radius;
 	sf::CircleShape shape;
+	
+	float specificGassConstant = 287.058f;
+	float sealevelAirPressure = 1012.5f;
+	float seaLevelAirTemperature = 20.0f;
+	float temperatureLapseRate = 0.00649f;
+	float tropopauseAltitude = 11000.0f;
+
+	float getAltitudePressure(const float altitude)
+	{
+		//auto e = std::pow((1.0f - (0.0000225577f * 10)), 5.25588f);
+		return std::max(sealevelAirPressure * exp(-altitude/1000.0f), 0.0f);
+	}
+
+	float getAltitudeTemperature(const float altitude)
+	{
+		return seaLevelAirTemperature - (temperatureLapseRate * std::min(1000.0f, tropopauseAltitude));
+	}
 
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const
 	{

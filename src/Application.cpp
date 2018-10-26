@@ -55,7 +55,7 @@ namespace Game
 					if (event.key.code == sf::Keyboard::Up)
 					{
 						sf::View view = window.getDefaultView();
-						view.zoom(zoomLevel *= 0.5f);
+						view.zoom(zoomLevel *= 0.9f);
 						window.setView(view);
 
 						std::cout << "Zoom-- " << zoomLevel << std::endl;
@@ -64,7 +64,7 @@ namespace Game
 					if (event.key.code == sf::Keyboard::Down)
 					{
 						sf::View view = window.getDefaultView();
-						view.zoom(zoomLevel *= 2.0f);
+						view.zoom(zoomLevel *= 1.1f);
 						window.setView(view);
 
 						std::cout << "Zoom++ " << zoomLevel << std::endl;
@@ -75,8 +75,25 @@ namespace Game
 			sf::Time elapsed = clock.restart();
 			sf::Vector2i mouse = sf::Mouse::getPosition(window);
 			ship.update(elapsed);
+			
+			sf::Vector2f p((float)mouse.x, (float)mouse.y);
+			sf::Vector2f p0 = earth.getCenter();
 
-			window.clear(sf::Color(45, 130, 226));			
+			float altitude = (float)sqrt(pow(p.x - p0.x, 2.0f) + pow(p.y - p0.y, 2.0f)) - earth.getRadius();
+
+			float density = earth.getAltitudeDensity(altitude);
+			float a = clamp<float>(density, 0.0f, 1.0f);
+
+			sf::Color blue(sf::Color::Blue);
+			sf::Color black(sf::Color::Black);
+
+			float r = blue.r * a + (black.r * (1.0f - a));
+			float g = blue.g * a + (black.g * (1.0f - a));
+			float b = blue.b * a + (black.b * (1.0f - a));
+
+			cout << "altitude=" << altitude << " alpha=" << density  << " ac=" << a << endl;
+
+			window.clear(sf::Color(r, g, b));
 			window.draw(ship);
 			window.draw(earth);
 			
