@@ -11,7 +11,7 @@ class Ship : public sf::Drawable, public sf::Transformable
 {
 public:
 	Ship(sf::Vector2f initialPosition, Earth &earth)
-		: radius(30)
+		: radius(15)
 		, earth(earth)
 		, velocity(0.0f, 0.0f)
 	{
