@@ -55,14 +55,14 @@ public:
 				altitude *= 100;
 
 				float density = earth.getAltitudeDensity(altitude);
-				float a = clamp<float>(density, 0.0f, 1.0f);
+				float alpha = clamp<float>(density, 0.0f, 1.0f);
 
 				sf::Color blue(sf::Color::Blue);
 				sf::Color black(sf::Color::Black);
 
-				float r = blue.r * a + (black.r * (1.0f - a));
-				float g = blue.g * a + (black.g * (1.0f - a));
-				float b = blue.b * a + (black.b * (1.0f - a));
+				float r = blue.r * alpha + (black.r * (1.0f - alpha));
+				float g = blue.g * alpha + (black.g * (1.0f - alpha));
+				float b = blue.b * alpha + (black.b * (1.0f - alpha));
 
 				buffer.setPixel(x, y, sf::Color(r, g, b));
 			}
@@ -99,7 +99,8 @@ public:
 		shape.setPosition(sf::Vector2f(x - radius, y - radius));
 	}
 
-	float getRadius() {
+	float getRadius() 
+	{
 		return radius;
 	}
 

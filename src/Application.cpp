@@ -10,7 +10,7 @@ namespace Game
 	int Application::Run()
 	{
 		cout << "Start application" << endl;
-		float heightAboveGround = 50;
+		float heightAboveGround = 200;
 		float earthRadius = 10000;
 
 		sf::Vector2f EarthPosition(windowCenter.x, windowCenter.y + earthRadius + heightAboveGround);
