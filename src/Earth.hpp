@@ -4,7 +4,10 @@
 #include <SFML/Graphics/VertexArray.hpp>
 
 #include <iostream>
+#include <algorithm>
 #include <cmath>
+
+using namespace std;
 
 class Earth : public sf::Drawable, public sf::Transformable
 {
@@ -24,8 +27,49 @@ public:
 		shape.setOutlineThickness(2);
 		shape.setPointCount(400);
 
+		/*sf::Image buffer = createAtmosphere(windowWidth, windowHeight, earth);
+		sf::Texture texture;
+		texture.loadFromImage(buffer);
+		sf::Sprite atmosphere;
+		atmosphere.setTexture(texture);
+		*/
 		setCenterAt(initialPosition.x, initialPosition.y);
 	}
+
+	sf::Image createAtmosphere(int windowWidth, int windowHeight, int zoomLevel)
+	{
+		return createAtmosphere(windowWidth, windowHeight, zoomLevel, (*this));
+	}
+
+	sf::Image createAtmosphere(int windowWidth, int windowHeight, int zoomLevel, Earth& earth)
+	{
+		sf::Image buffer;
+		buffer.create(windowWidth, windowHeight);
+
+		for (int x = 0; x < buffer.getSize().x; x++) {
+			for (size_t y = 0; y < buffer.getSize().y; y++)
+			{
+				sf::Vector2f p(x * zoomLevel, y * zoomLevel);
+				sf::Vector2f p0(earth.getCenter().x *zoomLevel, earth.getCenter().y * zoomLevel);
+				float altitude = (float)sqrt(pow(p.x - p0.x, 2.0f) + pow(p.y - p0.y, 2.0f)) - earth.getRadius();
+				altitude *= 100;
+
+				float density = earth.getAltitudeDensity(altitude);
+				float a = clamp<float>(density, 0.0f, 1.0f);
+
+				sf::Color blue(sf::Color::Blue);
+				sf::Color black(sf::Color::Black);
+
+				float r = blue.r * a + (black.r * (1.0f - a));
+				float g = blue.g * a + (black.g * (1.0f - a));
+				float b = blue.b * a + (black.b * (1.0f - a));
+
+				buffer.setPixel(x, y, sf::Color(r, g, b));
+			}
+		}
+		return buffer;
+	}
+
 
 	float getHeightAboveGround(float x, float y)
 	{

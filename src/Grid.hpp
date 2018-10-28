@@ -32,31 +32,27 @@ public:
 	}
 
 private:
-	void createVertices(sf::VertexArray& vertices)
+	void createVertices(std::vector<sf::Vertex>& vertices)
 	{
-		vertices.setPrimitiveType(sf::Points);
-
-		for (int i = 0; i < columns; i++)
+		for (int x = 0; x < columns+1; x++)
 		{
-			for (int j = 0; j < rows; j++)
-			{
-				const float x = (float)std::clamp(i * size, 0, width);
-				const float y = (float)std::clamp(j * size, 0, height);
-
-				const sf::Vector2f v(x, y);
-				const sf::Vertex vertex = sf::Vertex(v);
-
-				vertices.append(vertex);
-			}
+			vertices.push_back(sf::Vertex(sf::Vector2f(x * size, 0.0f)));
+      			vertices.push_back(sf::Vertex(sf::Vector2f(x * size, height)));
+		}
+		
+		for (int y = 0; y < rows+1; y++)
+		{
+			vertices.push_back(sf::Vertex(sf::Vector2f(0, y * size)));
+			vertices.push_back(sf::Vertex(sf::Vector2f(width, y * size)));
 		}
 	}
 
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const
 	{
 		states.transform *= getTransform();
-		states.texture = NULL;
-
-		target.draw(vertices, states);
+		states.texture = NULL;		
+		
+		target.draw(&vertices[0], vertices.size(), sf::Lines);
 	}
 
 	int size;
@@ -65,6 +61,6 @@ private:
 
 	int columns;
 	int rows;
-
-	sf::VertexArray vertices;
+	
+	std::vector<sf::Vertex> vertices;
 };
