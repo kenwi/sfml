@@ -83,6 +83,17 @@ public:
 		return d - radius;
 	}
 
+	float CalculateDrag(float velocity, float altitude, float radius)
+	{
+		float density = getAltitudeDensity(altitude) / pow(1000, 3);
+
+		float crossSection = 3.141592f * (radius * radius);
+		float Cd = 0.5f;
+		// drag = d = dragcoefficient * 0.5 * density * velocity^2 * reference area 
+		// coefficient of sphere = 0.5
+		return Cd * 0.5 * density * (velocity * velocity) * crossSection;
+	}
+
 	float getGravityAtHeight(float height)
 	{
 		return -9.81f;
@@ -108,7 +119,7 @@ public:
 	{
 		float temperature = getAltitudeTemperature(altitude);
 		float pressure = getAltitudePressure(altitude);
-		return pressure * 100.0f/ (temperature + 273.15f) * specificGassConstant;
+		return pressure / (temperature + 273.15f) * specificGassConstant;
 	}
 
 private:
