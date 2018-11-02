@@ -1,3 +1,5 @@
+#pragma once
+
 #include <SFML/Graphics.hpp>
 
 #include <SFML/Graphics/RenderStates.hpp>
@@ -36,14 +38,14 @@ private:
 	{
 		for (int x = 0; x < columns+1; x++)
 		{
-			vertices.push_back(sf::Vertex(sf::Vector2f(x * size, 0.0f)));
-      			vertices.push_back(sf::Vertex(sf::Vector2f(x * size, height)));
+			vertices.push_back(sf::Vector2f((float)x * size, 0.0f));
+      		vertices.push_back(sf::Vector2f((float)x * size, (float)height));
 		}
 		
 		for (int y = 0; y < rows+1; y++)
 		{
-			vertices.push_back(sf::Vertex(sf::Vector2f(0, y * size)));
-			vertices.push_back(sf::Vertex(sf::Vector2f(width, y * size)));
+			vertices.push_back(sf::Vector2f(0.0f, (float)y * size));
+			vertices.push_back(sf::Vector2f((float)width, (float)y * size));
 		}
 	}
 

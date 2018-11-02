@@ -3,8 +3,6 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
-
-
 namespace Game
 {
 	using namespace sf;
@@ -20,7 +18,6 @@ namespace Game
 			, window(VideoMode(windowWidth, windowHeight), "", sf::Style::Titlebar | sf::Style::Close | sf::Style::Resize)
 			, view(FloatRect(1.0f, 1.0f, 1.0f, 1.0f))
 		{
-			
 
 		}
 

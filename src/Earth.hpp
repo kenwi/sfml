@@ -44,7 +44,7 @@ public:
 	sf::Image createAtmosphere(int windowWidth, int windowHeight, int zoomLevel, Earth& earth)
 	{
 		sf::Image buffer;
-		buffer.create(windowWidth, windowHeight);
+		/*buffer.create(windowWidth, windowHeight);
 
 		for (int x = 0; x < buffer.getSize().x; x++) {
 			for (size_t y = 0; y < buffer.getSize().y; y++)
@@ -66,7 +66,7 @@ public:
 
 				buffer.setPixel(x, y, sf::Color(r, g, b));
 			}
-		}
+		}*/
 		return buffer;
 	}
 
@@ -85,13 +85,13 @@ public:
 
 	float CalculateDrag(float velocity, float altitude, float radius)
 	{
-		float density = getAltitudeDensity(altitude) / pow(1000, 3);
+		float density = getAltitudeDensity(altitude) / (float)pow(1000, 3);
 
 		float crossSection = 3.141592f * (radius * radius);
 		float Cd = 0.5f;
 		// drag = d = dragcoefficient * 0.5 * density * velocity^2 * reference area 
 		// coefficient of sphere = 0.5
-		return Cd * 0.5 * density * (velocity * velocity) * crossSection;
+		return Cd * 0.5f * density * (velocity * velocity) * crossSection;
 	}
 
 	float getGravityAtHeight(float height)
