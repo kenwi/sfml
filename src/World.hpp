@@ -10,11 +10,13 @@
 class GWorld : public sf::Drawable, public sf::Transformable
 {
 public:
-	GWorld()
+	GWorld(sf::RenderWindow &renderWindow)
 		: ground(0)
 		, cameraLocalPosition(0.0f, 0.0f)
 	{
-		Grid *grid = new Grid(100, 100, 10);
+		window = &renderWindow;
+		int numCells = 10;
+		Grid *grid = new Grid(window->getSize().x, window->getSize().y, window->getSize().x/numCells);
 		pGrid = grid;
 		drawables.push_back(grid);
 
@@ -53,6 +55,7 @@ private:
 	Grid *pGrid;
 	vector<sf::Drawable*> drawables;
 	vector<GComponent*> components;
+	sf::RenderWindow *window;
 
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const
 	{
