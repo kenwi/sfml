@@ -5,6 +5,7 @@
 #include <SFML/Graphics/Transformable.hpp>
 
 #include "Grid.hpp"
+#include "FramerateComponent.hpp"
 
 class GWorld : public sf::Drawable, public sf::Transformable
 {
@@ -16,21 +17,34 @@ public:
 		Grid *grid = new Grid(100, 100, 10);
 		pGrid = grid;
 		drawables.push_back(grid);
+
+		GFramerateComponent *testComponent = new GFramerateComponent();
+		components.push_back(testComponent);
+	}
+
+	~GWorld()
+	{
+		for (auto c : components)
+			delete c;
+
+		for (auto d : drawables)
+			delete d;
 	}
 
 	void update(float deltaTime)
 	{
-
+		for (auto c : components)
+			c->update(deltaTime);
 	}
 
-	void draw()
-	{
-		
-	}
-	
 	vector<sf::Drawable*> getDrawQueue()
 	{
 		return drawables;
+	}
+
+	vector<GComponent*> getComponentQueue()
+	{
+		return components;
 	}
 
 private:
@@ -38,6 +52,7 @@ private:
 	sf::Vector2f cameraLocalPosition;
 	Grid *pGrid;
 	vector<sf::Drawable*> drawables;
+	vector<GComponent*> components;
 
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const
 	{
