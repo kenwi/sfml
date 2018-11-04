@@ -29,6 +29,7 @@ public:
 
 		float aps = totalFrames / totalTime;
 		std::cout << "aps: " << aps << ", totalTime: " << totalTime << ", deltaTime: " << deltaTime << std::endl;
+		totalTime = 0.0f;
+		totalFrames = 0;
 	}
-
 };
