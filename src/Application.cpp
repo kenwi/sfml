@@ -26,11 +26,7 @@ namespace Game
 			sf::Event event;
 			while (window.pollEvent(event))
 			{
-				if (event.type == sf::Event::Closed
-					|| event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
-				{
-					input.update(event);
-				}
+				input.update(event);
 			}			
 			sf::Time elapsed = clock.restart();
 			sf::Vector2i mouse = sf::Mouse::getPosition(window);
