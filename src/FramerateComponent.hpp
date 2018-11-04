@@ -4,7 +4,7 @@
 
 #include "ComponentBase.hpp"
 
-class GFramerateComponent : public GComponent
+class GFramerateComponent : public GameComponent
 {
 	float totalTime;
 	int totalFrames;

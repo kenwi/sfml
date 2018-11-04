@@ -8,6 +8,7 @@
 #include "Grid.hpp"
 #include "Ship.hpp"
 #include "World.hpp"
+#include "InputComponent.hpp"
 
 using namespace std;
 
@@ -17,7 +18,8 @@ namespace Game
 	{
 		cout << "Start application" << endl;
 
-		GWorld world;
+		GWorld world(window);
+		InputComponent input(window);
 		Clock clock;
 		while (window.isOpen())
 		{
@@ -27,7 +29,7 @@ namespace Game
 				if (event.type == sf::Event::Closed
 					|| event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
 				{
-					window.close();
+					input.update(event);
 				}
 			}			
 			sf::Time elapsed = clock.restart();
@@ -41,7 +43,7 @@ namespace Game
 			window.display();
 		}
 		
-		std::cout << "Release application";
+		std::cout << "Release application" << std::endl;
 		return 0;
 	}
 }
