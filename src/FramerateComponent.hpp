@@ -6,12 +6,14 @@
 
 class GFramerateComponent : public GameComponent
 {
+	float time;
 	float totalTime;
 	int totalFrames;
 
 public:
 	GFramerateComponent()
-		: totalTime(0.0f)
+		: time(0.0f)
+		, totalTime(0.0f)
 		, totalFrames(0)
 	{
 		std::cout.precision(5);
@@ -21,15 +23,16 @@ public:
 
 	void update(float deltaTime)
 	{
+		time += deltaTime;
 		totalTime += deltaTime;
 		totalFrames++;
 
 		if (totalFrames % 2000)
 			return;
 
-		float aps = totalFrames / totalTime;
+		float aps = totalFrames / time;
 		std::cout << "aps: " << aps << ", totalTime: " << totalTime << ", deltaTime: " << deltaTime << std::endl;
-		totalTime = 0.0f;
+		time = 0.0f;
 		totalFrames = 0;
 	}
 };
